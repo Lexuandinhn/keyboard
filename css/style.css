@@ -1,0 +1,241 @@
+/* Perfume E-commerce Website Styles */
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f8f6f3;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #f8f6f3;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 30px 0;
+    text-align: center;
+    
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #b48a78;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+
+
+nav a {
+    color: #b48a78;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: #7c5c4a;
+}
+
+.main-banner {
+    background: url('banner-perfume.jpg') center/cover no-repeat;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.product-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    background: #fff;
+}
+
+.product-card:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    border: 1px solid #b48a78;
+;
+    z-index: 2;
+}
+
+.product-card img {
+    width: px;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.product-card h2 {
+    font-size: 1.2rem;
+    color: #b48a78;
+    margin: 10px 0 5px 0;
+}
+
+.product-card p {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.product-card .price {
+    font-size: 1.1rem;
+    color: #7c5c4a;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.button {
+    background-color: #b48a78;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.button:hover {
+    background-color: #7c5c4a;
+}
+
+footer {
+    background-color: #fff;
+    border-top: 1px solid #e5e5e5;
+    text-align: center;
+    padding: 18px 0;
+    color: #b48a78;
+    font-size: 0.95rem;
+    margin-top: 40px;
+}
+/* Card Shadow & Uniform Image Card Layout */
+.card-shadow {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(180, 138, 120, 0.12);
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 350px;
+    transition: box-shadow 0.25s;
+}
+
+.card-shadow:hover {
+    box-shadow: 0 8px 24px rgba(180, 138, 120, 0.18);
+}
+
+.card-shadow img {
+    width: px;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 8px rgba(180, 138, 120, 0.10);
+}
+
+.card-shadow h2 {
+    font-size: 1.15rem;
+    color: #b48a78;
+    margin: 10px 0 5px 0;
+}
+
+.card-shadow p {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.card-shadow .price {
+    font-size: 1.1rem;
+    color: #7c5c4a;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+/* ===== Footer ===== */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    /* chiếm hết chiều cao còn lại, đẩy footer xuống dưới */
+}
+
+/* Footer mặc định đẹp */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 14px;
+}
+
+.dropdown-menu {
+    overflow: hidden;    .dropdown-menu .dropdown-item.active {
+        background-color: #f5e9e3;
+        color: #b48a78;
+        font-weight: 600;
+    }
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(180, 138, 120, 0.10);
+    padding: 8px 0;
+}
+
+.dropdown-menu .dropdown-item {
+    transition: background 0.2s, color 0.2s;
+    border-radius: 4px;
+    margin: 0 8px;
+}
+
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+    background-color: #f5e9e3;
+    color: #b48a78;
+}
+/*infox box*/
+.info-box {
+    
+    
+    transition: transform 0.3s ease; /* hiệu ứng hover */
+}
+
+.info-box:hover {
+    transform: scale(1.02); /* phóng to nhẹ khi rê chuột */
+}
+.title {
+    font-size: 2.5rem;
+    color: #b48a78;
+    margin-bottom: 30px;
+    text-align: center;
+    margin-top: -30px;
+}
