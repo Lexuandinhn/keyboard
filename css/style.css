@@ -1,0 +1,997 @@
+/* ==========================================================================
+   VYSE GEAR STORE - PHONG CÁCH CYBERPUNK MECHA KEYBOARD GEAR TOÀN DIỆN
+   - Giao diện Dark Cyberpunk công nghệ cao, đậm chất bàn phím cơ Custom
+   - Bảng màu: Deep Cyber Navy/Dark Plate, Neon Cyan (#00f0ff), Matrix Green (#00ff9d),
+     Laser Crimson (#ff0055), Electric Violet (#7000ff)
+   - Hiệu ứng: LED RGB Chroma Underglow, Tia quét Laser HUD, Xúc giác switch phím cơ,
+     Lưới tọa độ Cyber Grid, Kính mờ phản quang (Cyber Glassmorphism)
+   - Lưu ý: Giữ nguyên 100% nội dung chữ và hình ảnh của website
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0. HỆ THỐNG BIẾN CYBERPUNK (CYBERPUNK DESIGN SYSTEM VARIABLES)
+   -------------------------------------------------------------------------- */
+:root {
+    /* --- BẢNG MÀU NỀN & KHUNG CYBERPUNK (DEEP CYBER DARK) --- */
+    --cyber-bg-main: #0a0d14;
+    /* Nền chính tối đậm chất không gian công nghệ */
+    --cyber-bg-surface: #121622;
+    /* Nền bề mặt Card, Panel, Form (Dark Mecha Plate) */
+    --cyber-bg-surface-elevated: #171d2b;
+    /* Bề mặt nổi khối */
+    --cyber-bg-card-hover: #192033;
+    /* Nền khi hover */
+    --cyber-border-subtle: rgba(0, 240, 255, 0.20);
+    /* Viền mờ Neon Cyan */
+    --cyber-border-glow: #00f0ff;
+    /* Viền sáng rực Neon Cyan */
+
+    /* --- BẢNG MÀU CHỮ & TYPOGRAPHY --- */
+    --cyber-text-primary: #f8fafc;
+    /* Chữ chính trắng sáng sắc nét */
+    --cyber-text-secondary: #94a3b8;
+    /* Chữ phụ xám xanh kim loại */
+    --cyber-text-muted: #64748b;
+    /* Chữ mờ chi tiết phụ */
+    --cyber-font-main: 'Montserrat', 'Segoe UI', -apple-system, sans-serif;
+
+    /* --- BẢNG MÀU NĂNG LƯỢNG NEON (RGB CHROMA PALETTE) --- */
+    /* 1. Neon Cyan (Màu biểu tượng Cyberpunk & Phím cơ Keycap Tokyo Night) */
+    --neon-cyan: #00f0ff;
+    --neon-cyan-glow: rgba(0, 240, 255, 0.65);
+
+    /* 2. Matrix Neon Green (Màu chốt đơn, giá tiền dạ quang & Razer Chroma) */
+    --neon-green: #00ff9d;
+    --neon-green-glow: rgba(0, 255, 157, 0.65);
+
+    /* 3. Laser Cyber Crimson (Nút Xóa / Cảnh báo - Tương phản tối đa, không tiệp nền) */
+    --neon-crimson: #ff0055;
+    --neon-crimson-glow: rgba(255, 0, 85, 0.70);
+    --neon-crimson-border: #ff3377;
+
+    /* 4. Electric Violet (Hào quang thứ cấp) */
+    --neon-violet: #7000ff;
+    --neon-violet-glow: rgba(112, 0, 255, 0.60);
+
+    /* --- THÔNG SỐ ĐỘ NẢY SWITCH CƠ HỌC (TACTILE KEYBOARD FEEL) --- */
+    --cyber-radius-sm: 4px;
+    --cyber-radius-md: 8px;
+    --cyber-radius-lg: 12px;
+    --cyber-switch-bounce: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    --cyber-transition: all 0.24s var(--cyber-switch-bounce);
+}
+
+/* --------------------------------------------------------------------------
+   I. ĐỊNH DẠNG NỀN & KHUNG TOÀN TRANG (GLOBAL CYBERPUNK ATMOSPHERE)
+   -------------------------------------------------------------------------- */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--cyber-font-main);
+    background-color: var(--cyber-bg-main);
+    color: var(--cyber-text-primary);
+    /* Lưới tọa độ Cyber Grid kết hợp ánh sáng hắt đỉnh HUD */
+    background-image:
+        radial-gradient(ellipse at 50% 0%, rgba(0, 240, 255, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 85% 50%, rgba(112, 0, 255, 0.08) 0%, transparent 50%),
+        linear-gradient(rgba(0, 240, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.025) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 45px 45px, 45px 45px;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Thanh cuộn phong cách Cyberpunk (Custom Scrollbar) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #090c12;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--neon-cyan);
+    box-shadow: 0 0 10px var(--neon-cyan-glow);
+}
+
+/* --------------------------------------------------------------------------
+   II. HEADER & THANH ĐIỀU HƯỚNG CYBERPUNK HUD (NAVBAR & HEADER)
+   -------------------------------------------------------------------------- */
+header {
+    background: transparent;
+    border: none;
+    padding: 0;
+    text-align: center;
+    position: relative;
+    z-index: 1050;
+}
+
+.navbar {
+    background: rgba(10, 13, 20, 0.94) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1.5px solid rgba(0, 240, 255, 0.3) !important;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 240, 255, 0.15);
+    padding: 12px 0;
+    position: relative;
+    z-index: 1050 !important;
+}
+
+.navbar>.container,
+.navbar-collapse,
+.navbar-nav,
+.nav-item,
+.nav-item.dropdown {
+    overflow: visible !important;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #ffffff !important;
+    text-transform: uppercase;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+    transition: var(--cyber-transition);
+}
+
+.navbar-brand:hover {
+    color: var(--neon-cyan) !important;
+    text-shadow: 0 0 20px var(--neon-cyan-glow);
+}
+
+.navbar-brand img {
+    filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.5));
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover img {
+    transform: rotate(-5deg) scale(1.08);
+}
+
+.nav-link {
+    color: var(--cyber-text-secondary) !important;
+    font-weight: 600;
+    font-size: 0.88rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0 10px;
+    padding: 8px 14px !important;
+    border-radius: var(--cyber-radius-sm);
+    position: relative;
+    transition: all 0.25s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    color: var(--neon-cyan) !important;
+    background: rgba(0, 240, 255, 0.08);
+    text-shadow: 0 0 10px var(--neon-cyan-glow);
+}
+
+.nav-link.active {
+    color: var(--neon-cyan) !important;
+    background: rgba(0, 240, 255, 0.12);
+    border-bottom: 2px solid var(--neon-cyan);
+    text-shadow: 0 0 12px var(--neon-cyan-glow);
+    box-shadow: inset 0 -4px 8px rgba(0, 240, 255, 0.2);
+}
+
+/* Nút mở menu trên Mobile (Cyberpunk Toggler) */
+.navbar-toggler {
+    border: 1.5px solid var(--neon-cyan) !important;
+    background: rgba(0, 240, 255, 0.1) !important;
+    border-radius: var(--cyber-radius-sm) !important;
+    padding: 6px 10px !important;
+    transition: var(--cyber-transition);
+}
+
+.navbar-toggler:hover,
+.navbar-toggler:focus {
+    background: rgba(0, 240, 255, 0.25) !important;
+    box-shadow: 0 0 15px var(--neon-cyan-glow) !important;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1) hue-rotate(140deg);
+}
+
+/* Dropdown Menu Cyberpunk Glass */
+.dropdown-menu {
+    background: rgba(18, 22, 34, 0.98) !important;
+    backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(0, 240, 255, 0.35) !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), 0 0 20px rgba(0, 240, 255, 0.2) !important;
+    border-radius: var(--cyber-radius-md) !important;
+    padding: 8px 0;
+    margin-top: 10px;
+    position: absolute !important;
+    z-index: 1100 !important;
+}
+
+.dropdown-menu a,
+.dropdown-item,
+[class*="dropdown-item"] {
+    color: var(--cyber-text-secondary) !important;
+    text-decoration: none !important;
+    display: block;
+    width: 100%;
+    clear: both;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu a:hover,
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background: rgba(0, 240, 255, 0.15) !important;
+    color: var(--neon-cyan) !important;
+    text-decoration: none !important;
+    text-shadow: 0 0 8px var(--neon-cyan-glow);
+    padding-left: 24px;
+}
+
+.dropdown-item.active,
+.dropdown-menu .active,
+[class*="dropdown-item"][class*="active"] {
+    background: rgba(0, 240, 255, 0.22) !important;
+    color: var(--neon-cyan) !important;
+    text-decoration: none !important;
+    font-weight: 700;
+    text-shadow: 0 0 10px var(--neon-cyan-glow);
+}
+
+/* --------------------------------------------------------------------------
+   III. BANNER & TIÊU ĐỀ PHONG CÁCH CYBERPUNK (BANNER & HEADINGS)
+   -------------------------------------------------------------------------- */
+.main-banner,
+.banner {
+    background: linear-gradient(135deg, rgba(8, 10, 16, 0.92) 0%, rgba(18, 12, 30, 0.92) 100%),
+        url('../images/1.jpg') center/cover no-repeat;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    padding: 45px 20px;
+    border-bottom: 1.5px solid rgba(0, 240, 255, 0.3);
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.85), 0 6px 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
+    /* z-index thấp để navbar (1050) và dropdown (1100) luôn nổi lên trên */
+    overflow: hidden;
+}
+
+.banner::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--neon-cyan) 50%, transparent 100%);
+    box-shadow: 0 0 15px var(--neon-cyan);
+}
+
+.banner-title,
+.title {
+    font-size: 2.4rem;
+    color: #ffffff !important;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    margin: 0;
+    text-transform: uppercase;
+    text-shadow: 0 0 18px var(--neon-cyan-glow), 0 0 35px rgba(112, 0, 255, 0.5), 0 3px 6px rgba(0, 0, 0, 0.8);
+}
+
+.banner-subtitle {
+    font-size: 1.05rem;
+    color: var(--cyber-text-secondary);
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+/* Khung hình ảnh Banner phong cách Cyberpunk Mecha */
+.banner-img-container {
+    position: relative;
+    display: inline-block;
+    padding: 6px;
+    background: rgba(18, 22, 34, 0.85);
+    border: 1.5px solid rgba(0, 240, 255, 0.45);
+    border-radius: var(--cyber-radius-md);
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.25), 0 12px 35px rgba(0, 0, 0, 0.85);
+    transition: var(--cyber-transition);
+}
+
+.banner-img-container:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 40px var(--neon-cyan-glow), 0 16px 45px rgba(0, 0, 0, 0.95);
+    transform: translateY(-4px) scale(1.02);
+}
+
+.banner-img {
+    max-height: 260px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: var(--cyber-radius-sm);
+    display: block;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Tiêu đề mục (Section Headings) với HUD Bracket */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+h2 {
+    color: var(--neon-cyan) !important;
+    font-size: 1.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 25px;
+    text-shadow: 0 0 12px var(--neon-cyan-glow);
+    display: inline-block;
+    position: relative;
+}
+
+h2::after {
+    content: "";
+    display: block;
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--neon-cyan) 0%, transparent 100%);
+    box-shadow: 0 0 10px var(--neon-cyan);
+    margin-top: 8px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* --------------------------------------------------------------------------
+   IV. THẺ SẢN PHẨM CYBERPUNK MECHA (PRODUCT CARDS & LAYOUTS)
+   - Thiết kế mô phỏng Case nhôm phím cơ CNC với đèn LED RGB Underglow
+   -------------------------------------------------------------------------- */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+.product-card,
+.card-shadow {
+    background: var(--cyber-bg-surface) !important;
+    border-radius: var(--cyber-radius-md) !important;
+    border: 1.5px solid var(--cyber-border-subtle) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65) !important;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1),
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+    position: relative;
+}
+
+.product-card::before,
+.card-shadow::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25px;
+    height: 25px;
+    border-top: 2px solid var(--neon-cyan);
+    border-left: 2px solid var(--neon-cyan);
+    opacity: 0.6;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.product-card:hover,
+.card-shadow:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: var(--neon-cyan) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85),
+        0 0 25px rgba(0, 240, 255, 0.35) !important;
+    background: var(--cyber-bg-card-hover) !important;
+    z-index: 2;
+}
+
+.product-card:hover::before,
+.card-shadow:hover::before {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.15);
+}
+
+.product-card img,
+.card-shadow img {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    border-radius: var(--cyber-radius-sm);
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.product-card:hover img,
+.card-shadow:hover img {
+    transform: scale(1.03);
+    filter: brightness(1.06);
+}
+
+.product-card h2,
+.product-card h5,
+.card-shadow h2 {
+    font-size: 1.25rem;
+    color: #ffffff !important;
+    margin: 10px 0 6px 0;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.product-card h2::after {
+    display: none;
+    /* Bỏ gạch chân trong thẻ card */
+}
+
+.product-card p,
+.card-shadow p {
+    font-size: 0.92rem;
+    color: var(--cyber-text-secondary);
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+/* Giá tiền sản phẩm: Màu Matrix Green Dạ Quang cực hút mắt */
+.product-card .price,
+.card-shadow .price {
+    font-size: 1.3rem;
+    color: var(--neon-green) !important;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    text-shadow: 0 0 12px var(--neon-green-glow);
+}
+
+.product-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 6px 0 0 0;
+    flex: 1;
+}
+
+.product-card .card-body .btn {
+    width: 100%;
+    margin-top: auto;
+}
+
+/* --------------------------------------------------------------------------
+   V. HỆ THỐNG GIAO DIỆN & HIỆU ỨNG BUTTON CYBERPUNK MECH-GEAR
+   - [1] Base Button & Tia quét Laser HUD
+   - [2] Primary Button (Neon Cyan / Electric Violet)
+   - [3] Success CTA Button (Matrix Neon Green)
+   - [4] Danger Button (Laser Cyber Crimson - TUYỆT ĐỐI KHÔNG TIỆP NỀN)
+   -------------------------------------------------------------------------- */
+
+/* [1] KHUNG CƠ SỞ CHO NÚT BẤM (BUTTON BASE) */
+.btn,
+.button,
+.animated-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--cyber-font-main);
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    line-height: 1.4;
+    padding: 12px 28px;
+    border-radius: var(--cyber-radius-sm);
+    /* Bo góc 4px chuẩn phím cơ CNC */
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    transform: translateZ(0);
+    will-change: transform, box-shadow;
+    transition: var(--cyber-transition);
+    vertical-align: middle;
+}
+
+/* [Tia quét Laser HUD khi Hover] */
+.btn::before,
+.button::before,
+.animated-btn::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -140%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.65) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: rotate(30deg);
+    pointer-events: none;
+    transition: left 0.6s ease;
+    z-index: 2;
+}
+
+.btn:hover::before,
+.button:hover::before,
+.animated-btn:hover::before {
+    left: 160%;
+}
+
+/* [Sóng năng lượng khi Click] */
+.btn::after,
+.button::after,
+.animated-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.65) 0%,
+            rgba(255, 255, 255, 0) 70%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: width 0.5s ease-out, height 0.5s ease-out, opacity 0.5s ease-out;
+    z-index: 1;
+}
+
+.btn:active::after,
+.button:active::after,
+.animated-btn:active::after {
+    width: 320px;
+    height: 320px;
+    opacity: 1;
+    transition: 0s;
+}
+
+/* === [2] NÚT CHÍNH: CYBER NEON CYAN / INDIGO (PRIMARY BUTTON) ===
+   - Sử dụng cho: "View Details", "Login", "Register", "Send Message", "View Orders"
+*/
+.btn-primary,
+.button,
+.animated-btn:not(.btn-success):not(.btn-danger) {
+    background: linear-gradient(135deg,
+            #00f0ff 0%,
+            #0066ff 50%,
+            #7000ff 100%) !important;
+    color: #ffffff !important;
+    border: 1.5px solid var(--neon-cyan) !important;
+    box-shadow:
+        0 4px 18px rgba(0, 102, 255, 0.45),
+        0 0 12px var(--neon-cyan-glow),
+        inset 0 1px 2px rgba(255, 255, 255, 0.45) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 240, 255, 0.7);
+}
+
+.btn-primary:hover,
+.button:hover,
+.animated-btn:not(.btn-success):not(.btn-danger):hover {
+    background: linear-gradient(135deg,
+            #33f3ff 0%,
+            #1a75ff 50%,
+            #851aff 100%) !important;
+    color: #ffffff !important;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:
+        0 0 28px rgba(0, 240, 255, 0.75),
+        0 8px 25px rgba(0, 102, 255, 0.6),
+        inset 0 1px 3px rgba(255, 255, 255, 0.7) !important;
+}
+
+.btn-primary:active,
+.button:active,
+.animated-btn:not(.btn-success):not(.btn-danger):active {
+    transform: translateY(2px) scale(0.97);
+    box-shadow:
+        0 0 12px rgba(0, 240, 255, 0.5),
+        inset 0 2px 6px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* === [3] NÚT MUA HÀNG: MATRIX NEON GREEN (SUCCESS CTA) ===
+   - Sử dụng cho: "Add to Cart", "Proceed to Checkout", "Place Order"
+*/
+.btn-success,
+.btn-success.animated-btn {
+    background: linear-gradient(135deg,
+            #00ff9d 0%,
+            #00c853 50%,
+            #00701a 100%) !important;
+    color: #ffffff !important;
+    border: 1.5px solid var(--neon-green) !important;
+    box-shadow:
+        0 4px 18px rgba(0, 200, 83, 0.45),
+        0 0 14px var(--neon-green-glow),
+        inset 0 1px 2px rgba(255, 255, 255, 0.45) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 255, 157, 0.8);
+    animation: cyberPulseGlowSuccess 3.2s infinite ease-in-out;
+}
+
+.btn-success:hover,
+.btn-success.animated-btn:hover {
+    background: linear-gradient(135deg,
+            #33ffb1 0%,
+            #00e676 50%,
+            #009624 100%) !important;
+    color: #ffffff !important;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:
+        0 0 30px rgba(0, 255, 157, 0.8),
+        0 8px 25px rgba(0, 200, 83, 0.6),
+        inset 0 1px 3px rgba(255, 255, 255, 0.7) !important;
+    animation: none;
+}
+
+.btn-success:active,
+.btn-success.animated-btn:active {
+    transform: translateY(2px) scale(0.97);
+    box-shadow:
+        0 0 12px rgba(0, 255, 157, 0.5),
+        inset 0 2px 6px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* === [4] NÚT XÓA: LASER CYBER CRIMSON (TUYỆT ĐỐI KHÔNG TIỆP NỀN) ===
+   - Sử dụng cho: "Remove", "Xóa tất cả đơn hàng"
+   - ĐỎ LASER NEON RỰC RỠ, CHỮ TRẮNG TINH KHIẾT, VIỀN PHẢN QUANG SẮC NÉT
+*/
+.btn-danger,
+.remove-btn {
+    background: linear-gradient(135deg,
+            var(--neon-crimson) 0%,
+            #ff1744 50%,
+            #b7002b 100%) !important;
+    color: #ffffff !important;
+    border: 1.5px solid var(--neon-crimson-border) !important;
+    box-shadow:
+        0 4px 18px rgba(255, 0, 85, 0.5),
+        0 0 14px var(--neon-crimson-glow),
+        inset 0 1px 2px rgba(255, 255, 255, 0.4) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 0, 85, 0.9) !important;
+}
+
+.btn-danger:hover,
+.remove-btn:hover {
+    background: linear-gradient(135deg,
+            #ff2a70 0%,
+            #ff0055 50%,
+            #d50032 100%) !important;
+    color: #ffffff !important;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow:
+        0 0 30px rgba(255, 0, 85, 0.85),
+        0 8px 25px rgba(255, 23, 68, 0.65),
+        inset 0 1px 3px rgba(255, 255, 255, 0.7) !important;
+}
+
+.btn-danger:active,
+.remove-btn:active {
+    transform: translateY(2px) scale(0.97);
+    box-shadow:
+        0 0 12px rgba(255, 0, 85, 0.6),
+        inset 0 2px 6px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Nút Mini trong bảng giỏ hàng */
+.btn-sm,
+.btn.btn-sm,
+.remove-btn {
+    padding: 7px 16px !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.8px;
+    border-radius: var(--cyber-radius-sm) !important;
+}
+
+/* Trợ năng Focus */
+.btn:focus-visible,
+.button:focus-visible,
+.animated-btn:focus-visible {
+    outline: 2px solid var(--neon-cyan) !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 15px var(--neon-cyan) !important;
+}
+
+/* Keyframes LED RGB Breathing */
+@keyframes cyberPulseGlowSuccess {
+
+    0%,
+    100% {
+        box-shadow:
+            0 4px 18px rgba(0, 200, 83, 0.45),
+            0 0 14px var(--neon-green-glow),
+            inset 0 1px 2px rgba(255, 255, 255, 0.45);
+    }
+
+    50% {
+        box-shadow:
+            0 6px 26px rgba(0, 255, 157, 0.75),
+            0 0 22px rgba(0, 255, 157, 0.65),
+            inset 0 1px 2px rgba(255, 255, 255, 0.6);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   VI. BẢNG BIỂU CYBERPUNK HUD (CART, ORDERS & TABLES)
+   -------------------------------------------------------------------------- */
+.table {
+    color: var(--cyber-text-primary) !important;
+    border-color: rgba(0, 240, 255, 0.25) !important;
+    background: transparent !important;
+    margin-bottom: 25px;
+}
+
+.table> :not(caption)>*>* {
+    background-color: var(--cyber-bg-surface) !important;
+    color: var(--cyber-text-primary) !important;
+    border-color: rgba(0, 240, 255, 0.18) !important;
+    padding: 14px 16px;
+    vertical-align: middle;
+}
+
+.table thead th,
+.table-dark th {
+    background-color: #0c101a !important;
+    color: var(--neon-cyan) !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    border-bottom: 2px solid var(--neon-cyan) !important;
+    text-shadow: 0 0 8px var(--neon-cyan-glow);
+}
+
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+    background-color: #161b2a !important;
+}
+
+.table-hover>tbody>tr:hover>* {
+    background-color: rgba(0, 240, 255, 0.08) !important;
+    box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.15);
+}
+
+/* Badges trạng thái trong đơn hàng */
+.badge {
+    padding: 6px 12px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    border-radius: var(--cyber-radius-sm);
+}
+
+.badge.bg-success {
+    background: rgba(0, 255, 157, 0.15) !important;
+    color: var(--neon-green) !important;
+    border: 1px solid var(--neon-green);
+    box-shadow: 0 0 12px var(--neon-green-glow);
+}
+
+.badge.bg-warning {
+    background: rgba(255, 184, 0, 0.15) !important;
+    color: #ffb800 !important;
+    border: 1px solid #ffb800;
+    box-shadow: 0 0 12px rgba(255, 184, 0, 0.5);
+}
+
+/* --------------------------------------------------------------------------
+   VII. BIỂU MẪU NHẬP LIỆU CYBERPUNK (FORMS, INPUTS & CHECKOUT)
+   -------------------------------------------------------------------------- */
+.contact-form,
+form {
+    background: var(--cyber-bg-surface);
+    border: 1.5px solid var(--cyber-border-subtle);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.75), 0 0 20px rgba(0, 240, 255, 0.12);
+    border-radius: var(--cyber-radius-md);
+}
+
+.form-label {
+    color: var(--neon-cyan) !important;
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+}
+
+.form-control,
+.form-select {
+    background-color: #0b0e16 !important;
+    border: 1.5px solid rgba(0, 240, 255, 0.25) !important;
+    color: #ffffff !important;
+    border-radius: var(--cyber-radius-sm) !important;
+    padding: 11px 16px;
+    font-size: 0.95rem;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8);
+    transition: all 0.25s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #0f131e !important;
+    border-color: var(--neon-cyan) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 16px var(--neon-cyan-glow), inset 0 1px 4px rgba(0, 0, 0, 0.5) !important;
+    outline: none !important;
+}
+
+.form-control::placeholder {
+    color: var(--cyber-text-muted);
+}
+
+/* Form Submit Button */
+.contact-form .btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 13px 28px;
+}
+
+/* --------------------------------------------------------------------------
+   VIII. CÁC KHUNG THÔNG TIN PHỤ (INFO BOX, ABOUT, FOOTER)
+   -------------------------------------------------------------------------- */
+.info-box {
+    background: var(--cyber-bg-surface);
+    border-radius: var(--cyber-radius-md);
+    border: 1.5px solid var(--cyber-border-subtle);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    color: var(--cyber-text-primary);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.info-box:hover {
+    transform: translateY(-3px) scale(1.01);
+    border-color: var(--neon-cyan);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.2);
+}
+
+/* --- TỈ LỆ & ĐỊNH KIỂU HÌNH ẢNH CHI TIẾT SẢN PHẨM (PRODUCT DETAIL IMAGE) --- */
+.product-img-box,
+.col-md-5.info-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    height: 100%;
+    min-height: 420px;
+}
+
+.product-detail-img,
+.product-img-box img,
+.col-md-5.info-box img,
+.col-md-5 .info-box img {
+    width: 100%;
+    height: 520px;
+    max-height: 520px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: var(--cyber-radius-sm);
+    border: 1.5px solid rgba(0, 240, 255, 0.35);
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.2), 0 10px 30px rgba(0, 0, 0, 0.85);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    display: block;
+}
+
+.product-detail-img:hover,
+.product-img-box img:hover,
+.col-md-5.info-box img:hover,
+.col-md-5 .info-box img:hover {
+    transform: scale(1.03);
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 35px var(--neon-cyan-glow), 0 14px 35px rgba(0, 0, 0, 0.95);
+}
+
+.styled-section {
+    background: var(--cyber-bg-surface);
+    border: 1.5px solid var(--cyber-border-subtle);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    border-radius: var(--cyber-radius-md);
+    color: var(--cyber-text-primary);
+}
+
+.skills-list {
+    line-height: 2.2;
+    color: var(--cyber-text-secondary);
+}
+
+.skills-list li {
+    position: relative;
+    padding-left: 5px;
+}
+
+/* Khung hình ảnh giới thiệu (About Image) */
+aside img,
+section img.shadow {
+    border: 1.5px solid var(--cyber-border-subtle);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 240, 255, 0.2) !important;
+    border-radius: var(--cyber-radius-md) !important;
+}
+
+/* Footer đồng bộ công nghệ tối */
+footer {
+    background: #07090e !important;
+    color: var(--cyber-text-secondary);
+    text-align: center;
+    padding: 30px 15px;
+    font-size: 14px;
+    margin-top: 60px;
+    border-top: 1.5px solid rgba(0, 240, 255, 0.25);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.8);
+}
+
+footer div {
+    margin-bottom: 8px;
+}
+
+footer a {
+    color: var(--neon-cyan);
+    font-size: 1.25rem;
+    margin: 0 8px;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+footer a:hover {
+    color: #ffffff;
+    transform: translateY(-3px) scale(1.2);
+    text-shadow: 0 0 15px var(--neon-cyan);
+}
